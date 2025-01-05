@@ -45,6 +45,7 @@ class ProblemContextPMedian:
             self.distance_matrix.append(row)
     
     def evaluate_solution(self, solution:SolutionPMedian) -> float:
+        #Esse metodo será útil caso no futuro queiramos avaliar se a solução atende a possíveis outras restrições da solução.
         total_cost = 0.0
         for i in range(self.num_locations):
             median = solution.allocations[i]
