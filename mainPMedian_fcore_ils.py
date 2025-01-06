@@ -3,15 +3,16 @@ from optframe import *
 from optframe.protocols import *
 import random
 class SolutionPMedian(object):
-    def __init__(self, p: int):
+    
+    def __init__(self, p: int, medians: List[int] = [], allocations: List[int] = []):
         #consideramos cada vertice como um "cliente" e cada median um "centro de distribuição"
         #num de medians a serem escolhidos
         self.p=p
         #indice dos medians
-        self.medians=[]
+        self.medians= medians
         #lista que associa cada "cliente" para um median
-        self.allocations = []
-    
+        self.allocations = allocations
+
     def __str__(self):
         return f"SolutionPMedian(p={self.p}, medians={self.medians}, allocations={self.allocations})"
 
@@ -59,7 +60,8 @@ class ProblemContextPMedian:
         for i in range(self.num_locations):
             closest_median = min(medians, key=lambda m: self.distance_matrix[i][m])
             allocations.append(closest_median)
-        return SolutionPMedian(self.num_locations, self.num_medians,medians, allocations)
+        
+        return SolutionPMedian(self.num_medians,medians, allocations)
     
     def minimize(self, solution:SolutionPMedian) -> float:
         total_cost = 0.0
