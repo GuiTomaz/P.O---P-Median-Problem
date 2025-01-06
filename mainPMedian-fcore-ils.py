@@ -68,4 +68,30 @@ class ProblemContextPMedian:
             distance = self.distance_matrix[i][allocated_median]
             total_cost+=distance
         return total_cost
+
+class Move:
+    def __init__(self, old_median:int, new_median:int):
+        #Troca um median existente por outro, old_median = median a ser trocado new_median=median a ser adicionado a soluçao
+        self.old_median = old_median
+        self.new_median = new_median 
     
+    def apply(self, solution: SolutionPMedian):
+        #Solution é a soluçao onde o movimento será aplicado
+        if self.old_median in solution.medians:
+            solution.medians.remove(self.old_median)
+            solution.medians.append(self.new_median)
+
+            self.update_allocations(solution)
+
+    def undo(self, solution: SolutionPMedian):
+        #desfaz o movimento
+        if self.new_median in solution.medians:
+            solution.medians.remove(self.new_median)
+            solution.medians.append(self.old_median)
+            self.update_allocations(solution)
+            
+    def update_allocations(self, solution: SolutionPMedian):
+        #Recalcula as alocações de cada cliente/vertice para os medians
+        for i in range(solution.num_locations):
+            closest_median=min(solution.medians, key=lambda m: solution.distance_matrix[i][m])
+            solution.allocations[i] = closest_median
