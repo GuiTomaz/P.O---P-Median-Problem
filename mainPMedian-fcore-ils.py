@@ -45,7 +45,7 @@ class ProblemContextPMedian:
             self.distance_matrix.append(row)
     
     def evaluate_solution(self, solution:SolutionPMedian) -> float:
-        #Esse metodo será útil caso no futuro queiramos avaliar se a solução atende a possíveis outras restrições da solução.
+        #Esse metodo será útil caso no futuro queiramos avaliar se a solução atende a possíveis outras restrições da solução. Checa se a solução é válida.
         total_cost = 0.0
         for i in range(self.num_locations):
             median = solution.allocations[i]
@@ -60,3 +60,12 @@ class ProblemContextPMedian:
             closest_median = min(medians, key=lambda m: self.distance_matrix[i][m])
             allocations.append(closest_median)
         return SolutionPMedian(self.num_locations, self.num_medians,medians, allocations)
+    
+    def minimize(self, solution:SolutionPMedian) -> float:
+        total_cost = 0.0
+        for i in range(self.num_locations):
+            allocated_median=solution.allocations[i]
+            distance = self.distance_matrix[i][allocated_median]
+            total_cost+=distance
+        return total_cost
+    
