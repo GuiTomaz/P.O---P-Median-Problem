@@ -3,6 +3,7 @@ from optframe import *
 from optframe.protocols import *
 from optframe.components import Move
 import random
+from optframe.components import NSIterator
 class SolutionPMedian(object):
     
     def __init__(self, p: int, medians: List[int] = [], allocations: List[int] = []):
@@ -101,13 +102,20 @@ class SwapMedian(Move):
     def eq(self, ctx, mv: 'SwapMedian') -> bool:
         return self.old_median == mv.old_median and self.new_median == mv.new_median
     
-    # def undo(self, solution: SolutionPMedian):
-    #     #desfaz o movimento
-    #     if self.new_median in solution.medians:
-    #         solution.medians.remove(self.new_median)
-    #         solution.medians.append(self.old_median)
-    #         self.update_allocations(solution)
+    def undo(self, solution: SolutionPMedian):
+        #desfaz o movimento
+        if self.new_median in solution.medians:
+            solution.medians.remove(self.new_median)
+            solution.medians.append(self.old_median)
+            self.update_allocations(solution)
             
         
 assert isinstance(SwapMedian, XMove)       # composition tests
 assert SwapMedian in Move.__subclasses__() # classmethod style
+
+class NSSwap(object):
+    @staticmethod
+    def randomMove(ctx, solution: SolutionPMedian) -> SwapMedian:
+        old_median = random.choice(solution.medians)
+        new_median = random.choice([m for m in range(ctx.num_locations) if m not in solution.medians])
+        return SwapMedian(old_median, new_median)
