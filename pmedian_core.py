@@ -26,7 +26,8 @@ class ProblemContextPMedian(object):
         self.num_locations: int = 0 #numero de total de locais(vértices)
         self.num_medians: int = 0 #numero de medians que devemos escolher
         self.distance_matrix: List[List[float]] = [] #Matriz de distancias entre os locais(vertices), a matriz é nxn
-
+        self.capacity: int = 0
+    
     def __str__(self):
         return f"ProblemContextPMedian(num_locations={self.num_locations}, num_medians={self.num_medians}, distance_matrix={self.distance_matrix})"
     
@@ -43,11 +44,11 @@ class ProblemContextPMedian(object):
         
         self.num_locations = int(lines[0].strip()) #lembrando: num total de vertices
         self.num_medians = int(lines[1].strip()) #num de medians
-
+        self.capacity = int(lines[2].strip())
         #Aqui carregamos a matriz de distancias
         self.distance_matrix=[]
         for i in range(self.num_locations):
-            row = list(map(float, lines[2+i].strip().split()))
+            row = list(map(float, lines[3+i].strip().split()))
             self.distance_matrix.append(row)
     
     # def evaluate_solution(self, solution:SolutionPMedian) -> float:
@@ -76,6 +77,15 @@ class ProblemContextPMedian(object):
             allocated_median=solution.allocations[i]
             distance = self.distance_matrix[i][allocated_median]
             total_cost+=distance
+        penalty = 10000
+        for mdn in solution.medians:
+            count = 0
+            for z in range(self.num_locations):
+                if(mdn == solution.allocations[z]):
+                    count += 1
+                if(count > self.capacity):
+                    total_cost += penalty
+                    break
         return total_cost
 assert isinstance(SolutionPMedian, XSolution)            # composition tests 
 assert isinstance(ProblemContextPMedian,  XProblem)      # composition tests 
