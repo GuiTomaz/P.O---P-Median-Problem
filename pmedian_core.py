@@ -77,7 +77,7 @@ class ProblemContextPMedian(object):
             allocated_median=solution.allocations[i]
             distance = self.distance_matrix[i][allocated_median]
             total_cost+=distance
-        penalty = 10000
+        penalty = 1000000
         for mdn in solution.medians:
             count = 0
             for z in range(self.num_locations):
