@@ -6,13 +6,16 @@ from optframe.heuristics import *
 from pmedian_core import *
 import random
 
-
+import time
+start_time = time.time()
 
 random.seed()
 
 # Load the problem
 context =  ProblemContextPMedian()
-context.load_data('example1.txt')
+#context.load_data('example2.txt')
+#context.load_data('gen_example1.txt')
+context.load_data('gen_example2.txt')
 print(context)
 
 #Registrando componentes basicos
@@ -92,3 +95,4 @@ print("Best solution: ",   lout.best_s)
 print("Best evaluation: ", lout.best_e)
 
 print("FINISHED")
+print("--- tempo: %s seconds ---" % (time.time() - start_time))
