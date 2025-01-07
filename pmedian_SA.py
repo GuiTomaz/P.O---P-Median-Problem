@@ -4,7 +4,7 @@ from optframe import *
 from optframe.protocols import *
 
 from optframe.heuristics import *
-from mainPMedian_fcore_ils import SolutionPMedian, ProblemContextPMedian, SwapMedian
+from pmedian_core import SolutionPMedian, ProblemContextPMedian, SwapMedian
 import random
 
 #funcao callback do optframe que gera uma solucao inicial
