@@ -23,7 +23,8 @@ def callback_avaliador(ctx:ProblemContextPMedian, solucao:SolutionPMedian):
 #criacao do contexto do problema
 context = ProblemContextPMedian()
 #context.load_data('example2.txt')
-context.load_data('gen_example1.txt')
+#context.load_data('gen_example1.txt')
+context.load_data('gen_example2.txt')
 #criacao do avaliador e construtor
 avaliador =  context.engine.minimize(context,callback_avaliador)
 
@@ -57,7 +58,7 @@ ns_idx = context.engine.add_ns_class(context, callback_move)
 list_idx = context.engine.create_component_list("[ OptFrame:NS 0 ]", "OptFrame:NS[]")
 
 # build Simulated Annealing with alpha=0.98 T0=99999 and IterMax=100
-alpha= 0.80
+alpha= 0.98
 IterMax = 100
 T0= 99999
 # gs_idx = engine.build_global_search("OptFrame:ComponentBuilder:GlobalSearch:SA:BasicSA","OptFrame:GeneralEvaluator:Evaluator 0 OptFrame:InitialSearch 0 OptFrame:NS[] 0 " + str(alpha) + " " + str(T0) + " " + str(IterMax))
