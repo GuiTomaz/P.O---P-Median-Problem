@@ -22,8 +22,8 @@ def callback_avaliador(ctx:ProblemContextPMedian, solucao:SolutionPMedian):
 
 #criacao do contexto do problema
 context = ProblemContextPMedian()
-context.load_data('example1.txt')
-
+#context.load_data('example2.txt')
+context.load_data('gen_example1.txt')
 #criacao do avaliador e construtor
 avaliador =  context.engine.minimize(context,callback_avaliador)
 

@@ -12,7 +12,8 @@ random.seed()
 
 # Load the problem
 context =  ProblemContextPMedian()
-context.load_data('example1.txt')
+#context.load_data('example2.txt')
+context.load_data('gen_example1.txt')
 print(context)
 
 #Registrando componentes basicos
