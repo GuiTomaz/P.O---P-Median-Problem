@@ -58,9 +58,9 @@ ns_idx = context.engine.add_ns_class(context, callback_move)
 list_idx = context.engine.create_component_list("[ OptFrame:NS 0 ]", "OptFrame:NS[]")
 
 # build Simulated Annealing with alpha=0.98 T0=99999 and IterMax=100
-alpha= 0.98
-IterMax = 100
-T0= 99999
+alpha= 0.9
+IterMax = 5000
+T0=1000
 # gs_idx = engine.build_global_search("OptFrame:ComponentBuilder:GlobalSearch:SA:BasicSA","OptFrame:GeneralEvaluator:Evaluator 0 OptFrame:InitialSearch 0 OptFrame:NS[] 0 " + str(alpha) + " " + str(T0) + " " + str(IterMax))
 
 # # run Simulated Annealing for 10.0 seconds
@@ -69,6 +69,6 @@ T0= 99999
 
 sa = BasicSimulatedAnnealing(context.engine, 0, 0, list_idx, alpha, IterMax, T0)
 print("will invoke Simulated Annealing")
-sout = sa.search(10.0)
+sout = sa.search(120.0)
 print("Best solution: ",   sout.best_s)
 print("Best evaluation: ", sout.best_e)
