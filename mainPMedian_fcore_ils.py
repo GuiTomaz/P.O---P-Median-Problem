@@ -82,15 +82,16 @@ class SwapMedian(Move):
         self.new_median = __new_median 
     
     def apply(self, ctx, solution: SolutionPMedian) -> 'SwapMedian':
-        #Solution é a soluçao onde o movimento será aplicado
+    # Verifica se a troca de median é válida
         if self.old_median in solution.medians and self.new_median not in solution.medians:
+            # Troca o median antigo pelo novo
             solution.medians.remove(self.old_median)
             solution.medians.append(self.new_median)
 
-            #Recalcula as alocações de cada cliente/vertice para os medians
-            for i in range(solution.p):
-                closest_median=min(solution.medians, key=lambda m: ctx.distance_matrix[i][m])
-                solution.allocations[i] = closest_median
+        # Recalcula as alocações para todos os vértices
+        for i in range(ctx.num_locations):  # Corrigido para usar ctx.num_locations
+            closest_median = min(solution.medians, key=lambda m: ctx.distance_matrix[i][m])
+            solution.allocations[i] = closest_median
 
         return SwapMedian(self.new_median, self.old_median)
 

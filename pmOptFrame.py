@@ -57,7 +57,7 @@ ns_idx = engine.add_ns_class(contexto, callback_move)
 list_idx = engine.create_component_list("[ OptFrame:NS 0 ]", "OptFrame:NS[]")
 
 # build Simulated Annealing with alpha=0.98 T0=99999 and IterMax=100
-alpha= 0.80
+alpha= 0.98
 IterMax = 100
 T0= 99999
 # gs_idx = engine.build_global_search("OptFrame:ComponentBuilder:GlobalSearch:SA:BasicSA","OptFrame:GeneralEvaluator:Evaluator 0 OptFrame:InitialSearch 0 OptFrame:NS[] 0 " + str(alpha) + " " + str(T0) + " " + str(IterMax))
