@@ -6,7 +6,8 @@ from optframe.protocols import *
 from optframe.heuristics import *
 from pmedian_core import SolutionPMedian, ProblemContextPMedian, SwapMedian
 import random
-
+import time
+start_time = time.time()
 #funcao callback do optframe que gera uma solucao inicial
 def callback_construtor(ctx:ProblemContextPMedian):
 
@@ -72,3 +73,4 @@ print("will invoke Simulated Annealing")
 sout = sa.search(120.0)
 print("Best solution: ",   sout.best_s)
 print("Best evaluation: ", sout.best_e)
+print("--- tempo: %s seconds ---" % (time.time() - start_time))

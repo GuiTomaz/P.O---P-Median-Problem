@@ -6,7 +6,8 @@ from optframe.heuristics import *
 from pmedian_core import *
 import random
 
-
+import time
+start_time = time.time()
 
 random.seed()
 
@@ -94,3 +95,4 @@ print("Best solution: ",   lout.best_s)
 print("Best evaluation: ", lout.best_e)
 
 print("FINISHED")
+print("--- tempo: %s seconds ---" % (time.time() - start_time))
