@@ -119,3 +119,42 @@ class NSSwap(object):
         old_median = random.choice(solution.medians)
         new_median = random.choice([m for m in range(ctx.num_locations) if m not in solution.medians])
         return SwapMedian(old_median, new_median)
+    
+class IteratorSwap(NSIterator):
+    def __init__(self, medians, num_locations):
+        self.medians = medians
+        self.num_locations = num_locations
+        self.i=0
+        self.j=0
+    
+    def first(self, ctx):
+        self.i=0
+        self.j=0
+    
+    def next(self, ctx):
+        if self.j <self.num_locations-1:
+            self.j+=1
+        else:
+            self.i+=1
+            self.j=0
+
+    def isDone(self, ctx):
+        return self.i >= len(self.medians)
+    
+    def current(self, ctx):
+        old_median = self.medians[self.i]
+        new_median = self.j
+        if new_median not in self.medians:
+            return SwapMedian(old_median, new_median)
+        return None
+
+assert IteratorSwap in NSIterator.__subclasses__()   # optional test
+class NSSeqSwap:
+    @staticmethod
+    def randomMove(ctx, solution:SolutionPMedian) -> SwapMedian:
+        return NSSwap.randomMove(ctx, solution)
+    
+    @staticmethod
+    def getIterator(ctx, solution:SolutionPMedian) -> IteratorSwap:
+        return IteratorSwap(solution.medians, ctx.num_locations)
+    
