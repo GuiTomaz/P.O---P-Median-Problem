@@ -58,19 +58,92 @@ ns_idx = context.engine.add_ns_class(context, callback_move)
 # pack NS into a NS list
 list_idx = context.engine.create_component_list("[ OptFrame:NS 0 ]", "OptFrame:NS[]")
 
-# build Simulated Annealing with alpha=0.98 T0=99999 and IterMax=100
-alpha= 0.9
-IterMax = 5000
-T0=1000
+
+
+def find_best_SA_params(alpha_params, max_iter_params, t0_params, num_runs=10, search_time=10):
+    best_params = [0, 0, 0]
+    best_evaluation = float('inf') 
+    results = []
+
+    for alpha in alpha_params:
+        for mx_it in max_iter_params:
+            for tp in t0_params:
+                sa = BasicSimulatedAnnealing(context.engine, 0, 0, list_idx, alpha, mx_it, tp)
+                total_eval = 0
+
+                for i in range(num_runs):
+                    sout = sa.search(search_time)
+                    total_eval += sout.best_e
+
+                avg_eval = total_eval / num_runs
+                results.append((alpha, mx_it, tp, avg_eval))
+
+                if avg_eval < best_evaluation:
+                    best_evaluation = avg_eval
+                    best_params = [alpha, mx_it, tp]
+     # Exibe os melhores parâmetros encontrados
+    print("Melhores parâmetros encontrados:")
+    print("Resultados gerais", results)
+    print(f"Alpha: {best_params[0]}")
+    print(f"Iter: {best_params[1]}")
+    print(f"T0: {best_params[1]}")
+    print(f"Avaliação média: {best_evaluation}")
+    return best_params, best_evaluation, results
+
+
+alpha = [0.8, 0.85, 0.90, 0.95, 0.99]
+iterMax = [1000, 2000, 5000, 10000]
+T0 = [1000, 2000, 5000, 10000]
+
+best_params, best_evaluation, results = find_best_SA_params(alpha, iterMax, T0)
+print("Em resumo, melhores params: ", best_params)
+
+def run_SA(num_runs=10, search_time=10, alpha=0.8, iterMax=1000, T0 = 1000):
+
+    sa = BasicSimulatedAnnealing(context.engine, 0, 0, list_idx, alpha, iterMax, T0)
+    total_eval = 0
+
+    best_evaluation = float('inf') 
+    best_solution = []
+
+    tempo_total = 0
+    for i in range(num_runs):
+        start = time.time()
+        sout = sa.search(search_time)
+        end = time.time()
+        tempo_total += (end - start)  
+        if(sout.best_e < best_evaluation):
+            best_evaluation = sout.best_e
+            best_solution = sout.best_s
+        total_eval += sout.best_e
+    avg_eval = total_eval / num_runs
+    tempo_medio = tempo_total / num_runs
+    print("Tempo médio computacional", tempo_medio)
+    return avg_eval, best_evaluation, best_solution
 # gs_idx = engine.build_global_search("OptFrame:ComponentBuilder:GlobalSearch:SA:BasicSA","OptFrame:GeneralEvaluator:Evaluator 0 OptFrame:InitialSearch 0 OptFrame:NS[] 0 " + str(alpha) + " " + str(T0) + " " + str(IterMax))
 
 # # run Simulated Annealing for 10.0 seconds
 # lout = engine.run_global_search(gs_idx, 30.0)
 # print('lout=', lout)
 
+"""""
+# build Simulated Annealing with alpha=0.98 T0=99999 and IterMax=100
+#alpha= 0.9
+#IterMax = 5000
+#T0=1000
 sa = BasicSimulatedAnnealing(context.engine, 0, 0, list_idx, alpha, IterMax, T0)
 print("will invoke Simulated Annealing")
 sout = sa.search(60.0)
 print("Best solution: ",   sout.best_s)
 print("Best evaluation: ", sout.best_e)
+"""
+
+
+
+avg_eval, best_ev, best_sol = run_SA(10, 60)
+print("Melhor solução encontrada: ", best_sol)
+print("Valor da melhor solução encontrada:", best_ev)
+print("Valor médio da solução (10 execuções): ", avg_eval)
+
+print("FINISHED")
 print("--- tempo: %s seconds ---" % (time.time() - start_time))
