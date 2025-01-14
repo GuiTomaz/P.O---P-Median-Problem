@@ -92,7 +92,7 @@ context.engine.experimental_set_parameter("COMPONENT_LOG_LEVEL", "3")
 def find_best_ILS_params(max_iter_params, max_pert_params, num_runs=10, search_time=10):
    
     best_params = [0, 0]
-    best_evaluation = float('inf')  # Inicializa com um valor muito alto
+    best_evaluation = float('inf') 
     results = []
 
     for mx_it in max_iter_params:
@@ -121,19 +121,40 @@ def find_best_ILS_params(max_iter_params, max_pert_params, num_runs=10, search_t
     return best_params, best_evaluation, results
 
 
+def run_ILS(num_runs=10, search_time=10, iterMax=150, maxPert=10):
 
+    #Melhores parametros encontrados usando a find_best_ILS, iterMax= 150, maxPert=10
+    #padrão: 10 execucoes e 15 segundos cada
+    ilsl = ILSLevels(context.engine, 0, 0, 1, 0, iterMax, maxPert)
+    total_eval = 0
+
+    best_evaluation = float('inf') 
+    best_solution = []
+
+    tempo_total = 0
+    for i in range(num_runs):
+        start = time.time()
+        lout = ilsl.search(search_time)
+        end = time.time()
+        tempo_total += (end - start)  
+        if(lout.best_e < best_evaluation):
+            best_evaluation = lout.best_e
+            best_solution = lout.best_s
+        total_eval += lout.best_e
+    avg_eval = total_eval / num_runs
+    tempo_medio = tempo_total / num_runs
+    print("Tempo médio computacional", tempo_medio)
+    return avg_eval, best_evaluation, best_solution
 
 max_iter_params = [50, 75, 100, 125, 150, 200]
 max_pert_params = [10, 15, 20, 25, 30, 50]
 
-best_params, best_evaluation, results = find_best_ILS_params(max_iter_params, max_pert_params)
+#best_params, best_evaluation, results = find_best_ILS_params(max_iter_params, max_pert_params)
 
-
-"""ilsl = ILSLevels(context.engine,0,0,1,0,50,20)
+#Melhores parametros encontrados usando a find_best_ILS, (150, 10)
+"""ilsl = ILSLevels(context.engine,0,0,1,0,150,10)
 sum = 0
 for i in range (10):
-    print("loop",i)
-    print("will start ILS for 3 seconds")
     lout = ilsl.search(10)
     print("Best solution: ",   lout.best_s)
     print("Best evaluation: ", lout.best_e)
@@ -142,5 +163,10 @@ for i in range (10):
 print("FIM DO LOOP, valor de i=", i)
 avg = sum/10
 print("Average: ", avg)"""
+avg_eval, best_ev, best_sol = run_ILS(10, 90)
+
+print("Melhor solução encontrada: ", best_sol)
+print("Valor da melhor solução encontrada:", best_ev)
+print("Valor médio da solução (10 execuções): ", avg_eval)
 print("FINISHED")
-print("--- tempo: %s seconds ---" % (time.time() - start_time))
+print("--- Tempo total: %s seconds ---" % (time.time() - start_time))
