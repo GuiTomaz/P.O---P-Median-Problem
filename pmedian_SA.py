@@ -70,7 +70,7 @@ T0=1000
 
 sa = BasicSimulatedAnnealing(context.engine, 0, 0, list_idx, alpha, IterMax, T0)
 print("will invoke Simulated Annealing")
-sout = sa.search(120.0)
+sout = sa.search(60.0)
 print("Best solution: ",   sout.best_s)
 print("Best evaluation: ", sout.best_e)
 print("--- tempo: %s seconds ---" % (time.time() - start_time))

@@ -88,11 +88,59 @@ pert_idx = ilsl_pert.get_id()
 
 context.engine.experimental_set_parameter("COMPONENT_LOG_LEVEL", "3")
 
-ilsl = ILSLevels(context.engine,0,0,1,0,100,20)
-print("will start ILS for 3 seconds")
-lout = ilsl.search(20.0)
-print("Best solution: ",   lout.best_s)
-print("Best evaluation: ", lout.best_e)
 
+def find_best_ILS_params(max_iter_params, max_pert_params, num_runs=10, search_time=10):
+   
+    best_params = [0, 0]
+    best_evaluation = float('inf')  # Inicializa com um valor muito alto
+    results = []
+
+    for mx_it in max_iter_params:
+        for mx_pt in max_pert_params:
+            ilsl = ILSLevels(context.engine, 0, 0, 1, 0, mx_it, mx_pt)
+            total_eval = 0
+            
+            for i in range(num_runs):
+                lout = ilsl.search(search_time)  # Executa por search_time segundos
+                total_eval += lout.best_e
+            
+            avg_eval = total_eval / num_runs
+            results.append((mx_it, mx_pt, avg_eval))
+            
+            if avg_eval < best_evaluation:
+                best_evaluation = avg_eval
+                best_params = [mx_it, mx_pt]
+    
+    # Exibe os melhores parâmetros encontrados
+    print("Melhores parâmetros encontrados:")
+    print("Resultados gerais", results)
+    print(f"Max-iter: {best_params[0]}")
+    print(f"Max-pert: {best_params[1]}")
+    print(f"Avaliação média: {best_evaluation}")
+    
+    return best_params, best_evaluation, results
+
+
+
+
+max_iter_params = [50, 75, 100, 125, 150, 200]
+max_pert_params = [10, 15, 20, 25, 30, 50]
+
+best_params, best_evaluation, results = find_best_ILS_params(max_iter_params, max_pert_params)
+
+
+"""ilsl = ILSLevels(context.engine,0,0,1,0,50,20)
+sum = 0
+for i in range (10):
+    print("loop",i)
+    print("will start ILS for 3 seconds")
+    lout = ilsl.search(10)
+    print("Best solution: ",   lout.best_s)
+    print("Best evaluation: ", lout.best_e)
+    sum += lout.best_e
+
+print("FIM DO LOOP, valor de i=", i)
+avg = sum/10
+print("Average: ", avg)"""
 print("FINISHED")
 print("--- tempo: %s seconds ---" % (time.time() - start_time))
