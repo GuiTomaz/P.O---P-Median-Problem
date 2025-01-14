@@ -95,8 +95,8 @@ alpha = [0.8, 0.85, 0.90, 0.95, 0.99]
 iterMax = [1000, 2000, 5000, 10000]
 T0 = [1000, 2000, 5000, 10000]
 
-best_params, best_evaluation, results = find_best_SA_params(alpha, iterMax, T0)
-print("Em resumo, melhores params: ", best_params)
+#best_params, best_evaluation, results = find_best_SA_params(alpha, iterMax, T0)
+#print("Em resumo, melhores params: ", best_params)
 
 def run_SA(num_runs=10, search_time=10, alpha=0.8, iterMax=1000, T0 = 1000):
 

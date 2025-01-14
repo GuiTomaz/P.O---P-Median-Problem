@@ -146,8 +146,7 @@ def run_ILS(num_runs=10, search_time=10, iterMax=150, maxPert=10):
     print("Tempo médio computacional", tempo_medio)
     return avg_eval, best_evaluation, best_solution
 
-max_iter_params = [50, 75, 100, 125, 150, 200]
-max_pert_params = [10, 15, 20, 25, 30, 50]
+ 
 
 #best_params, best_evaluation, results = find_best_ILS_params(max_iter_params, max_pert_params)
 
