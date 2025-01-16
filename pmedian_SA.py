@@ -25,7 +25,7 @@ def callback_avaliador(ctx:ProblemContextPMedian, solucao:SolutionPMedian):
 context = ProblemContextPMedian()
 #context.load_data('example2.txt')
 #context.load_data('gen_example1.txt')
-context.load_data('gen_example2.txt')
+context.load_data('example3.txt')
 #criacao do avaliador e construtor
 avaliador =  context.engine.minimize(context,callback_avaliador)
 
@@ -140,7 +140,7 @@ print("Best evaluation: ", sout.best_e)
 
 
 
-avg_eval, best_ev, best_sol = run_SA(10, 60)
+avg_eval, best_ev, best_sol = run_SA(10, 30)
 print("Melhor solução encontrada: ", best_sol)
 print("Valor da melhor solução encontrada:", best_ev)
 print("Valor médio da solução (10 execuções): ", avg_eval)

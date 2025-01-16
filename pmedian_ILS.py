@@ -15,7 +15,8 @@ random.seed()
 context =  ProblemContextPMedian()
 #context.load_data('example2.txt')
 #context.load_data('gen_example1.txt')
-context.load_data('gen_example2.txt')
+#context.load_data('gen_example2.txt')
+context.load_data('example3.txt')
 print(context)
 
 #Registrando componentes basicos
@@ -162,7 +163,7 @@ for i in range (10):
 print("FIM DO LOOP, valor de i=", i)
 avg = sum/10
 print("Average: ", avg)"""
-avg_eval, best_ev, best_sol = run_ILS(10, 90)
+avg_eval, best_ev, best_sol = run_ILS(10, 30)
 
 print("Melhor solução encontrada: ", best_sol)
 print("Valor da melhor solução encontrada:", best_ev)
